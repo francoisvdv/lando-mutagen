@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+ 
+pushd "${0%/*}/../"
+ 
+if ! command -v npx &> /dev/null
+then
+    echo "npx could not be found"
+    exit 1
+fi
+ 
+npx standard-version --no-verify "$@"
+ 
+popd
