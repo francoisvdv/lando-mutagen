@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  install:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,36 +16,28 @@ jobs:
       with:
         node-version: 12
         cache: 'yarn'
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - run: yarn install
-    - uses: actions/upload-artifact@v2
-      with:
-        name: node_modules
-        path: node_modules/**/*
-  test:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: node_modules
-    - run: yarn test
-
-  build:
-    runs-on: ubuntu-latest
-    needs: install
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: node_modules
     - run: yarn compile
+    - run: yarn test
 
   package:
     runs-on: ubuntu-latest
-    needs: install
+    needs: test
     steps:
-    - uses: actions/download-artifact@v2
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12
+      uses: actions/setup-node@v2
       with:
-        name: node_modules
+        node-version: 12
+        cache: 'yarn'
+    - uses: actions/cache@v2
+      with:
+        path: '**/node_modules'
+        key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - run: yarn package
     - name: Release
       uses: softprops/action-gh-release@v1
