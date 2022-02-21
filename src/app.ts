@@ -5,7 +5,7 @@ import { Logger } from "./Logger";
 import { Mutagen } from "./Mutagen";
 import { MutagenConfigManipulator } from "./MutagenConfigManipulator";
 
-module.exports = (app: App) => {
+export default (app: App) => {
     const logger = new Logger(app);
     const mutagen = new Mutagen(logger);
     const mutagenConfigManipulator = new MutagenConfigManipulator(logger);

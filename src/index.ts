@@ -2,4 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 'use strict';
 
-module.exports = lando => {};
+import { Lando } from "lando";
+
+export default (lando: Lando) => {};
