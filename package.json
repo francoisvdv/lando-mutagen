@@ -1,5 +1,5 @@
 {
-  "name": "mutagen",
+  "name": "lando-mutagen",
   "version": "0.0.1",
   "description": "Automatically start and stop mutagen when starting and stopping a Lando project.",
   "main": "index.js",
