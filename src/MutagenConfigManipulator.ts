@@ -3,6 +3,7 @@ import { ProjectConfig } from "lando";
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
 import { Logger } from "./Logger";
+import { BaseError } from "./BaseError";
 
 export type SyncConfig  = {
     [name: string]: {
@@ -19,11 +20,21 @@ export interface MutagenConfig {
     sync: SyncConfig;
 }
 
+export class MutagenConfigNotFoundError extends BaseError {
+    constructor(public message: string) { super(); }
+}
+
+export class MutagenConfigInvalidError extends BaseError {
+    constructor(public originalError: unknown|string) { super(); }
+}
+
+export class MutagenConfigWriteError extends BaseError {
+    constructor(public originalError: unknown) { super(); }
+}
+
 export class MutagenConfigManipulator {
     constructor(
-        private logger: Logger,
-        private mutagenConfigFile = '.lando.mutagen.yml',
-        private manipulatedMutagenConfigFile = '.lando.mutagen.yml.tmp'
+        private logger: Logger
     ) {
     }
 
@@ -31,11 +42,20 @@ export class MutagenConfigManipulator {
         return config.sync !== undefined;
     }
 
-    createManipulatedMutagenConfigFile(projectName: string, projectConfig: ProjectConfig) {
+    createManipulatedMutagenConfigFile(
+        projectName: string,
+        projectConfig: ProjectConfig,
+        mutagenConfigInputFile: string,
+        mutagenConfigOutputFile: string
+    ) {
+        if (!fs.existsSync(mutagenConfigInputFile)) {
+            throw new MutagenConfigNotFoundError(mutagenConfigInputFile + ' does not exist');
+        }
+
         const services = Object.keys(projectConfig.services);
         const excludes = projectConfig.excludes;
     
-        const mutagenConfig = this.readMutagenFile();
+        const mutagenConfig = this.readMutagenConfigFile(mutagenConfigInputFile);
     
         // For each exclude, a docker volume is created. This docker volume is shared
         // across all containers for the project. We use the first service to create the
@@ -51,41 +71,44 @@ export class MutagenConfigManipulator {
             };
         });
     
-        this.writeMutagenFile(mutagenConfig);
+        this.writeMutagenConfigFile(mutagenConfig, mutagenConfigOutputFile);
     }
 
-    removeManipulatedMutagenConfigFile() {
-        if (fs.existsSync(this.manipulatedMutagenConfigFile)) {
-            fs.unlinkSync(this.manipulatedMutagenConfigFile);
+    removeManipulatedMutagenConfigFile(file: string) {
+        if (fs.existsSync(file)) {
+            fs.unlinkSync(file);
         } else {
-            this.logger.warn(`No mutagen result file to delete, it is possible that the` +
-                `mutagen syncs cannot be stopped. You should check afterwards using 'mutagen sync list'.`);
+            throw new MutagenConfigNotFoundError(file + ' does not exist');
         }
     }
 
 
-    private readMutagenFile(): MutagenConfig {
+    private readMutagenConfigFile(file: string): MutagenConfig {
+        if (!fs.existsSync(file)) {
+            throw new MutagenConfigNotFoundError(file + ' does not exist');
+        }
+
         // Read mutagen yaml file
         let mutagenConfig = null;
         try {
-            mutagenConfig = yaml.load(fs.readFileSync(this.mutagenConfigFile, 'utf-8'));
+            mutagenConfig = yaml.load(fs.readFileSync(file, 'utf-8'));
             if (!this.validateMutagenConfig(mutagenConfig)) {
-                throw new Error('The mutagen config file is invalid');
+                throw new MutagenConfigInvalidError('Configuration not valid');
             }
         } catch (e) {
-            this.logger.error(`error while reading ${this.mutagenConfigFile}: ${e}`);
-            throw e;
+            this.logger.error(`error while reading ${file}: ${e}`);
+            throw new MutagenConfigInvalidError(e);
         }
         return mutagenConfig;
     }
 
-    private writeMutagenFile(mutagenConfig: MutagenConfig) {
+    private writeMutagenConfigFile(mutagenConfig: MutagenConfig, outputFile: string) {
         // Write mutagen config to a result file
         try {
-            fs.writeFileSync(this.manipulatedMutagenConfigFile, yaml.dump(mutagenConfig));
+            fs.writeFileSync(outputFile, yaml.dump(mutagenConfig));
         } catch (e) {
-            this.logger.error(`error while writing ${this.manipulatedMutagenConfigFile}: ${e}`);
-            throw e;
+            this.logger.error(`error while writing ${outputFile}: ${e}`);
+            throw new MutagenConfigWriteError(e);
         }
     }
 }

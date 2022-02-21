@@ -4,4 +4,4 @@
 
 import { Lando } from "lando";
 
-export default (lando: Lando) => {};
+export = (lando: Lando) => {};

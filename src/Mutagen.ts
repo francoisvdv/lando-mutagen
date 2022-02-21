@@ -3,20 +3,23 @@
 import * as process from 'child_process';
 import * as fs from 'fs';
 import { ProjectConfig } from 'lando';
+import { BaseError } from './BaseError';
 import { Logger } from './Logger';
+
+export class MutagenProcessError extends BaseError {
+    constructor(public originalError: unknown) { super(); }
+}
 
 export class Mutagen {
     constructor(
-        private logger: Logger,
-        private mutagenConfigFile = '.lando.mutagen.yml',
-        private manipulatedMutagenConfigFile = '.lando.mutagen.yml.tmp'
+        private logger: Logger
     ) {
 
     }
 
     availableOnSystem(): boolean {
         try {
-            process.execSync(`which lando`);
+            process.execSync(`which mutagen`);
             return true;
         } catch (e) {
             this.logger.verbose(`error occurred while finding mutagen: ${e}`);
@@ -24,7 +27,7 @@ export class Mutagen {
         }
     }
 
-    availableInProject(projectConfig: ProjectConfig): boolean {
+    availableInProject(projectConfig: ProjectConfig, mutagenConfigFile: string): boolean {
         const services = Object.keys(projectConfig.services);
         const excludes = projectConfig.excludes;
 
@@ -38,34 +41,30 @@ export class Mutagen {
             return false;
         }
 
-        if (!fs.existsSync(this.mutagenConfigFile)) {
-            this.logger.verbose(`Not using mutagen, as there is no ${this.mutagenConfigFile} file`);
+        if (!fs.existsSync(mutagenConfigFile)) {
+            this.logger.verbose(`Not using mutagen, as there is no ${mutagenConfigFile} file`);
             return false;
         }
 
         return true;
     }
 
-    start() {
+    start(mutagenConfigFile: string) {
         try {
-            const stdout = process.execSync(`mutagen project start -f ${this.manipulatedMutagenConfigFile}`);
-            this.logger.info(`started mutagen: ${stdout}`);
+            this.logger.verbose(`starting mutagen`);
+            const stdout = process.execSync(`mutagen project start -f ${mutagenConfigFile}`);
+            this.logger.verbose(`started mutagen: ${stdout}`);
         } catch (e) {
-            if (e) {
-                this.logger.error(`error starting mutagen: ${e}`);
-                return;
-            }
+            throw new MutagenProcessError(e);
         }
     }
-    stop() {
+    stop(mutagenConfigFile: string) {
         try {
-            const stdout = process.execSync(`mutagen project terminate -f ${this.manipulatedMutagenConfigFile}`);
-            this.logger.info(`stopped mutagen: ${stdout}`);
+            this.logger.verbose(`stopping mutagen`);
+            const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
+            this.logger.verbose(`stopped mutagen: ${stdout}`);
         } catch (e) {
-            if (e) {
-                this.logger.error(`error stopping mutagen: ${e}`);
-                return;
-            }
+            throw new MutagenProcessError(e);
         }
     }
 }
