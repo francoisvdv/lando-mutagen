@@ -22,6 +22,8 @@ jobs:
 
   package:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     # needs: test
     steps:
     - uses: actions/checkout@v2
@@ -38,8 +40,9 @@ jobs:
     - run: mv dist lando-mutagen
     - run: zip -r release.zip lando-mutagen
     - name: Release
-      uses: softprops/action-gh-release@v1
-      # if: startsWith(github.ref, 'refs/tags/')
+      uses: ncipollo/release-action@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        body_path: ${{ github.workspace }}/CHANGELOG.md
-        files: release.zip
+        bodyFile: "CHANGELOG.md"
+        artifacts: "release.zip"
+        draft: true
