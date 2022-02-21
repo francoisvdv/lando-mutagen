@@ -4,7 +4,7 @@ const tracker = {
 }
 
 const config = {
-  "header": "# Changelog \r\n\r\nAll notable changes to this project will be documented in this file.",
+  "header": "# Changelog\r\n.",
   "types": [
     {"type":"feat","section":"Features","hidden":false},
     {"type":"fix","section":"Bug Fixes","hidden":false},

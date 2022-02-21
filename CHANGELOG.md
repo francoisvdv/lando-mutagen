@@ -1,6 +1,4 @@
 # Changelog 
-
-All notable changes to this project will be documented in this file.
 ### [1.0.6](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.5...v1.0.6) (2022-02-21)
 
 ### [1.0.5](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.4...v1.0.5) (2022-02-21)
