@@ -29,6 +29,8 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #to include tags
     - name: Use Node.js 12
       uses: actions/setup-node@v2
       with:
