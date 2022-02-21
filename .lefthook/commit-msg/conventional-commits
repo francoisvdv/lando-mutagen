@@ -1,0 +1,26 @@
+#!/bin/bash
+  
+set -euo pipefail
+  
+if [[ ! $# -eq 1 ]]; then
+  echo "Unexpected number of arguments"
+  exit 1
+fi
+  
+if test -f "$1"; then
+  commit_message=$(head -n 1 "$1")
+else
+  commit_message="$1"
+fi
+ 
+merge_regex="^Merge.*"
+if [[ "$commit_message" =~ $merge_regex ]]; then
+    exit 0
+fi
+ 
+conventional_commit_regex="^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(.*\))?(!)?: .+$"
+error_msg="Aborting commit. Your commit message does not follow the conventional-commit format."
+if [[ ! $commit_message =~ $conventional_commit_regex ]]; then
+  echo "$error_msg" >&2
+  exit 1
+fi

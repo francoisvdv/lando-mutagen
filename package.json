@@ -21,6 +21,7 @@
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@arkweid/lefthook": "^0.7.7",
     "@babel/eslint-parser": "^7.16.0",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^17.0.18",

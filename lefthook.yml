@@ -1,0 +1,14 @@
+commit-msg:
+  scripts:
+    "conventional-commits":
+      runner: bash
+
+pre-commit:
+  parallel: true
+  commands:
+    linter:
+      files: git diff --name-only @{push}
+      glob: "*.{js,ts,jsx,tsx}"
+      run: yarn eslint {files}
+    tests:
+      run: yarn test:unit
