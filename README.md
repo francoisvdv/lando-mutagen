@@ -19,7 +19,22 @@ This is where this plugin comes in. Add a base [Mutagen](https://mutagen.io) con
 2. Lando (obviously :))
 
 ## Installation
-Add the plugin in `~/.lando/plugins`. Lando will now load it automatically on any `lando` CLI command.
+Add the plugin in `~/.lando/plugins`. Your directory will look like this:
+```
+ ~/.lando/plugins/lando-mutagen:
+-rw-r--r--@ 1 user  group    193 Feb 21 17:07 BaseError.js
+-rw-r--r--@ 1 user  group    455 Feb 21 17:07 Logger.js
+-rw-r--r--@ 1 user  group   2338 Feb 21 17:07 Mutagen.js
+-rw-r--r--@ 1 user  group   3766 Feb 21 17:07 MutagenConfigManipulator.js
+-rw-r--r--@ 1 user  group   2465 Feb 21 17:07 app.js
+-rw-r--r--@ 1 user  group    193 Feb 21 17:07 index.js
+drwxr-xr-x@ 6 user  group    192 Feb 21 17:07 node_modules
+-rw-r--r--@ 1 user  group   1277 Feb 21 17:07 package.json
+-rw-r--r--@ 1 user  group  96577 Feb 21 17:07 yarn.lock
+```
+
+Lando will now load the plugin automatically on any `lando` CLI command. You can verify this by running `lando info -v` and searching for the line
+`DEBUG ==> plugin lando-mutagen loaded from /Users/user/.lando/plugins/lando-mutagen/index.js`
 
 ## Usage
 1. Have an existing Lando project containing a `.lando.yml` file
