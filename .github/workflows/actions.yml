@@ -41,11 +41,12 @@ jobs:
         path: '**/node_modules'
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
     - run: yarn package
+    - run: mv dist lando-mutagen
+    - run: zip -r release.zip lando-mutagen
     - name: Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.event.ref, 'refs/tags/v')
+      # if: startsWith(github.ref, 'refs/tags/')
       with:
         body_path: ${{ github.workspace }}/CHANGELOG.md
         fail_on_unmatched_files: true
-        files: |
-          dist/**/*
+        files: release.zip
