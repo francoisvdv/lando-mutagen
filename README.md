@@ -19,6 +19,13 @@ This is where this plugin comes in. Add a base [Mutagen](https://mutagen.io) con
 2. Lando (obviously :))
 
 ## Installation
+### One-liner
+```
+# rm -rf ~/.lando/plugins/lando-mutagen # Delete previous install
+mkdir -p ~/.lando/plugins && wget https://github.com/francoisvdv/lando-mutagen/releases/latest/download/release.zip -O /tmp/lando-mutagen.zip && unzip -o /tmp/lando-mutagen.zip -d ~/.lando/plugins && rm /tmp/lando-mutagen.zip
+```
+
+### Manual
 Add the plugin in `~/.lando/plugins`. Your directory will look like this:
 ```
  ~/.lando/plugins/lando-mutagen:
