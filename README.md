@@ -51,10 +51,10 @@ Lando will now load the plugin automatically on any `lando` CLI command. You can
         defaults:
             flushOnCreate: true
             ignore:
-            vcs: false
+                vcs: false
             permissions:
-            defaultFileMode: 644
-            defaultDirectoryMode: 755
+                defaultFileMode: 644
+                defaultDirectoryMode: 755
     ```
 4. Run `lando start`. This might take some time due to the file syncs.
 5. Profit! File changes in the `excludes` directories will now be synced back to the host and you can enjoy close-to linux-native Docker filesystem performance.
