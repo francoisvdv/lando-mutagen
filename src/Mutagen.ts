@@ -71,7 +71,7 @@ export class Mutagen {
     }
     stop(mutagenConfigFile: string) {
         // If the project is running, stop it.
-        if (this.isRunning) {
+        if (this.isRunning(mutagenConfigFile)) {
             try {
                 this.logger.verbose(`stopping mutagen`);
                 const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
