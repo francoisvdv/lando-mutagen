@@ -74,11 +74,15 @@ export class MutagenConfigManipulator {
         this.writeMutagenConfigFile(mutagenConfig, mutagenConfigOutputFile);
     }
 
-    removeManipulatedMutagenConfigFile(file: string) {
+    removeManipulatedMutagenConfigFile(file: string, softFail: boolean = false) {
         if (fs.existsSync(file)) {
             fs.unlinkSync(file);
         } else {
-            this.logger.verbose('Could not remove ' + file + ', because it does not exist');
+            if (softFail) {
+                this.logger.verbose('Could not remove ' + file + ', because it does not exist');
+            } else {
+                throw new MutagenConfigNotFoundError(file + ' does not exist');
+            }
         }
     }
 
