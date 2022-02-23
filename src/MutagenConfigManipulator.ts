@@ -78,11 +78,7 @@ export class MutagenConfigManipulator {
         if (fs.existsSync(file)) {
             fs.unlinkSync(file);
         } else {
-            if (softFail) {
-                this.logger.verbose('Could not remove ' + file + ', because it does not exist');
-            } else {
-                throw new MutagenConfigNotFoundError(file + ' does not exist');
-            }
+            throw new MutagenConfigNotFoundError(file + ' does not exist');
         }
     }
 
