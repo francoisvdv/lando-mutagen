@@ -61,7 +61,7 @@ export = (app: App) => {
         try {
             logger.info('stopping mutagen');
             mutagen.stop(mutagenConfigManipulatedFile);
-            mutagenConfigManipulator.removeManipulatedMutagenConfigFile(mutagenConfigManipulatedFile, true);
+            mutagenConfigManipulator.removeManipulatedMutagenConfigFile(mutagenConfigManipulatedFile);
             logger.info('stopped mutagen');
         }
         catch (e) {
