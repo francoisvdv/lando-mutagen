@@ -49,6 +49,17 @@ export class Mutagen {
         return true;
     }
 
+    isRunning(mutagenConfigFile: string): boolean {
+        try {
+            // Check if the mutagen project is running
+            process.execSync(`mutagen project list -f ${mutagenConfigFile}`);
+        }
+        catch (e) {
+            return false;
+        }
+        return true;
+    }
+
     start(mutagenConfigFile: string) {
         try {
             this.logger.verbose(`starting mutagen`);
@@ -59,20 +70,15 @@ export class Mutagen {
         }
     }
     stop(mutagenConfigFile: string) {
-        try {
-            // Check if the mutagen project is running
-            process.execSync(`mutagen project list -f ${mutagenConfigFile}`);
-        }
-        catch (e) {
-            return;
-        }
         // If the project is running, stop it.
-        try {
-            this.logger.verbose(`stopping mutagen`);
-            const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
-            this.logger.verbose(`stopped mutagen: ${stdout}`);
-        } catch (e) {
-            throw new MutagenProcessError(e);
+        if (this.isRunning) {
+            try {
+                this.logger.verbose(`stopping mutagen`);
+                const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
+                this.logger.verbose(`stopped mutagen: ${stdout}`);
+            } catch (e) {
+                throw new MutagenProcessError(e);
+            }
         }
     }
 }
