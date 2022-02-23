@@ -74,7 +74,7 @@ export class MutagenConfigManipulator {
         this.writeMutagenConfigFile(mutagenConfig, mutagenConfigOutputFile);
     }
 
-    removeManipulatedMutagenConfigFile(file: string, softFail = false) {
+    removeManipulatedMutagenConfigFile(file: string) {
         if (fs.existsSync(file)) {
             fs.unlinkSync(file);
         } else {
