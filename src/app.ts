@@ -65,7 +65,11 @@ export = (app: App) => {
             logger.info('stopped mutagen');
         }
         catch (e) {
-            handleError(e, logger);
+            if (e instanceof MutagenConfigNotFoundError) {
+                logger.verbose('mutagen config not found: ' + e.message);
+            } else {
+                handleError(e, logger);
+            }
         }
     });
 };
