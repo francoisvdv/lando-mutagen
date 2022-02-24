@@ -92,13 +92,15 @@ export class MutagenConfigManipulator {
         let mutagenConfig = null;
         try {
             mutagenConfig = yaml.load(fs.readFileSync(file, 'utf-8'));
-            if (!this.validateMutagenConfig(mutagenConfig)) {
-                throw new MutagenConfigInvalidError('Configuration not valid');
-            }
         } catch (e) {
             this.logger.error(`error while reading ${file}: ${e}`);
             throw new MutagenConfigInvalidError(e);
         }
+
+        if (!this.validateMutagenConfig(mutagenConfig)) {
+            throw new MutagenConfigInvalidError('Configuration not valid');
+        }
+
         return mutagenConfig;
     }
 

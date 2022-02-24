@@ -61,6 +61,11 @@ export class Mutagen {
     }
 
     start(mutagenConfigFile: string) {
+        if (this.isRunning(mutagenConfigFile)) {
+            this.logger.info(`mutagen already seems to be running, not starting it again`);
+            return;
+        }
+
         try {
             this.logger.verbose(`starting mutagen`);
             const stdout = process.execSync(`mutagen project start -f ${mutagenConfigFile}`);
@@ -70,15 +75,17 @@ export class Mutagen {
         }
     }
     stop(mutagenConfigFile: string) {
-        // If the project is running, stop it.
-        if (this.isRunning(mutagenConfigFile)) {
-            try {
-                this.logger.verbose(`stopping mutagen`);
-                const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
-                this.logger.verbose(`stopped mutagen: ${stdout}`);
-            } catch (e) {
-                throw new MutagenProcessError(e);
-            }
+        if (!this.isRunning(mutagenConfigFile)) {
+            this.logger.info(`mutagen not running, nothing to stop`);
+            return;
+        }
+
+        try {
+            this.logger.verbose(`stopping mutagen`);
+            const stdout = process.execSync(`mutagen project terminate -f ${mutagenConfigFile}`);
+            this.logger.verbose(`stopped mutagen: ${stdout}`);
+        } catch (e) {
+            throw new MutagenProcessError(e);
         }
     }
 }
