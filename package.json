@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "compile": "tsc",
-    "package": "yarn clean && yarn compile && cp package.json dist && cp yarn.lock dist && cd dist && yarn install --production --immutable --immutable-cache --check-cache",
+    "package": "yarn clean && yarn compile && cp CHANGELOG.md dist && cp package.json dist && cp yarn.lock dist && cd dist && yarn install --production --immutable --immutable-cache --check-cache",
     "coverage": "nyc report --reporter=text",
     "lint": "eslint --quiet . --ext .ts",
     "test:unit": "nyc --reporter=text mocha --timeout 5000 test/**/*.spec.js",
