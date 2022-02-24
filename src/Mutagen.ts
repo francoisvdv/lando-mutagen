@@ -52,9 +52,13 @@ export class Mutagen {
     isRunning(mutagenConfigFile: string): boolean {
         try {
             // Check if the mutagen project is running
-            process.execSync(`mutagen project list -f ${mutagenConfigFile}`);
+            process.execSync(`mutagen project list -f ${mutagenConfigFile}`, {
+                // https://stackoverflow.com/questions/25340875/nodejs-child-process-exec-disable-printing-of-stdout-on-console
+                stdio: 'pipe'
+            });
         }
         catch (e) {
+            this.logger.verbose(`mutagen 'isRunning' gave the following error (not necessarily a problem): ${e}`);
             return false;
         }
         return true;
