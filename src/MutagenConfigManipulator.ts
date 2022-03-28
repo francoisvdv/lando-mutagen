@@ -62,7 +62,7 @@ export class MutagenConfigManipulator {
         // mutagen sync on, after all it doesn't matter on which one we do so.
         const service = services[0];
         excludes.forEach(exclude => {
-            const syncName = projectName + exclude;
+            const syncName = this.stripNonAlphaNumericFromString(projectName + exclude);
             const containerName = `${projectName}_${service}_1`;
             mutagenConfig.sync[syncName] = {
                 alpha: './' + exclude,
@@ -83,7 +83,7 @@ export class MutagenConfigManipulator {
     }
 
 
-    private readMutagenConfigFile(file: string): MutagenConfig {
+    readMutagenConfigFile(file: string): MutagenConfig {
         if (!fs.existsSync(file)) {
             throw new MutagenConfigNotFoundError(file + ' does not exist');
         }
@@ -104,7 +104,7 @@ export class MutagenConfigManipulator {
         return mutagenConfig;
     }
 
-    private writeMutagenConfigFile(mutagenConfig: MutagenConfig, outputFile: string) {
+    writeMutagenConfigFile(mutagenConfig: MutagenConfig, outputFile: string) {
         // Write mutagen config to a result file
         try {
             fs.writeFileSync(outputFile, yaml.dump(mutagenConfig));
@@ -112,5 +112,9 @@ export class MutagenConfigManipulator {
             this.logger.error(`error while writing ${outputFile}: ${e}`);
             throw new MutagenConfigWriteError(e);
         }
+    }
+
+    stripNonAlphaNumericFromString(input: string): string {
+        return input.replace(/[^0-9a-z]/gi, '');
     }
 }
