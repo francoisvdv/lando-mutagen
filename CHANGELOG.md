@@ -1,5 +1,12 @@
 # Changelog
 .
+### [1.0.8](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.7...v1.0.8) (2022-03-28)
+
+
+### Bug Fixes
+
+* Strip non-alphanumeric characters from mutagen sync name to prevent "invalid synchronization session name" error. Fixes [#28](https://github.com/francoisvdv/lando-mutagen/issues/28) ([62711cb](https://github.com/francoisvdv/lando-mutagen/commit/62711cb7e86c8e8920cb3c9eb145422d9eadf488))
+
 ### [1.0.7](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.6...v1.0.7) (2022-02-24)
 
 
