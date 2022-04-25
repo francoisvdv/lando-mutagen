@@ -1,5 +1,6 @@
 'use strict';
 
+import { platform } from 'process';
 import * as process from 'child_process';
 import * as fs from 'fs';
 import { ProjectConfig } from 'lando';
@@ -19,7 +20,11 @@ export class Mutagen {
 
     availableOnSystem(): boolean {
         try {
-            process.execSync(`which mutagen`);
+            if (platform === "win32") {
+                process.execSync('where.exe mutagen');
+            } else {
+                process.execSync(`which mutagen`);
+            }
             return true;
         } catch (e) {
             this.logger.verbose(`error occurred while finding mutagen: ${e}`);
