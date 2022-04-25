@@ -1,5 +1,12 @@
 # Changelog
 .
+### [1.0.9](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.8...v1.0.9) (2022-04-25)
+
+
+### Bug Fixes
+
+* **#39:** Use 'where.exe' instead of 'which' on Windows to check for existence of mutagen executable ([bc80072](https://github.com/francoisvdv/lando-mutagen/commit/bc800720672b0328b3611c31e5c44f3c01ac44bf)), closes [#39](https://github.com/francoisvdv/lando-mutagen/issues/39)
+
 ### [1.0.8](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.7...v1.0.8) (2022-03-28)
 
 
