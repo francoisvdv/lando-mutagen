@@ -1,5 +1,12 @@
 # Changelog
 .
+### [1.0.10](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.9...v1.0.10) (2022-05-05)
+
+
+### Bug Fixes
+
+* **#56:** On checking if Mutagen is available in the project, do not crash when there are no services defined and instead do nothing (not use mutagen). ([8a17b64](https://github.com/francoisvdv/lando-mutagen/commit/8a17b64847f49edbb969e52040bf284512f54e54)), closes [#56](https://github.com/francoisvdv/lando-mutagen/issues/56)
+
 ### [1.0.9](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.8...v1.0.9) (2022-04-25)
 
 
