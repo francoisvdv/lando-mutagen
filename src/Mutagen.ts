@@ -33,6 +33,11 @@ export class Mutagen {
     }
 
     availableInProject(projectConfig: ProjectConfig, mutagenConfigFile: string): boolean {
+        if (projectConfig.services === null || projectConfig.services === undefined) {
+            this.logger.verbose('Not using mutagen, as there is no "services" property found in the lando config');
+            return false;
+        }
+
         const services = Object.keys(projectConfig.services);
         const excludes = projectConfig.excludes;
 

@@ -52,6 +52,10 @@ export class MutagenConfigManipulator {
             throw new MutagenConfigNotFoundError(mutagenConfigInputFile + ' does not exist');
         }
 
+        if (projectConfig.services === null || projectConfig.services === undefined) {
+            throw new MutagenConfigInvalidError('No "services" property found in the lando config');
+        }
+
         const services = Object.keys(projectConfig.services);
         const excludes = projectConfig.excludes;
     
