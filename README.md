@@ -25,6 +25,11 @@ This is where this plugin comes in. Add a base [Mutagen](https://mutagen.io) con
 mkdir -p ~/.lando/plugins && wget https://github.com/francoisvdv/lando-mutagen/releases/latest/download/release.zip -O /tmp/lando-mutagen.zip && unzip -o /tmp/lando-mutagen.zip -d ~/.lando/plugins && rm /tmp/lando-mutagen.zip
 ```
 
+There is currently an [issue with lando](https://github.com/lando/lando/issues/3394) where dashes in a plugin's name prevent it from working. Until this is fixed, run this command to rename the plugin:
+```
+mv ~/.lando/plugins/lando-mutagen ~/.lando/plugins/lando_mutagen
+```
+
 ### Manual
 Add the plugin in `~/.lando/plugins`. Your directory will look like this:
 ```
