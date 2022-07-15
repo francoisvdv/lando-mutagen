@@ -7,7 +7,7 @@
     "clean": "rm -rf ./dist",
     "compile": "tsc",
     "package": "yarn clean && yarn compile && cp CHANGELOG.md dist && cp package.json dist && cp yarn.lock dist && cd dist && yarn install --production --immutable --immutable-cache --check-cache",
-    "install:home": "yarn compile && rm -rf ~/.lando/plugins/lando-mutagen && mkdir -p ~/.lando/plugins && cp -r dist ~/.lando/plugins/lando-mutagen",
+    "install:home": "yarn compile && rm -rf ~/.lando/plugins/lando_mutagen && mkdir -p ~/.lando/plugins && cp -r dist ~/.lando/plugins/lando_mutagen",
     "coverage": "nyc report --reporter=text",
     "lint": "eslint --quiet . --ext .ts",
     "test:unit": "nyc --reporter=text ts-mocha --timeout 5000 ./**/*.test.ts",
@@ -24,9 +24,9 @@
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@arkweid/lefthook": "^0.7.7",
     "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.16.0",
+    "@evilmartians/lefthook": "^1.0.0",
     "@types/chai": "^4.3.0",
     "@types/js-yaml": "^4.0.5",
     "@types/mocha": "^9.1.0",
