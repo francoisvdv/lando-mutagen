@@ -30,17 +30,25 @@ export = (app: App) => {
     const mutagen = new Mutagen(logger);
     const mutagenConfigManipulator = new MutagenConfigManipulator(logger);
 
-    if (!mutagen.availableInProject(app.config, mutagenConfigInputFile)) {
-        logger.verbose('No mutagen-compatible configuration detected in project');
-        return;
-    }
+    const canStartMutagen = (): boolean => {    
+        if (!mutagen.availableInProject(app.config, mutagenConfigInputFile)) {
+            logger.verbose('No mutagen-compatible configuration detected in project');
+            return false;
+        }
+    
+        if (!mutagen.availableOnSystem()) {
+            logger.warn('Your system does not have mutagen installed, this project will not run very fast :(');
+            return false;
+        }
 
-    if (!mutagen.availableOnSystem()) {
-        logger.warn('Your system does not have mutagen installed, this project will not run very fast :(');
-        return;
-    }
+        return true;
+    };
 
     app.events.on('post-start', () => {
+        if (canStartMutagen() !== true) {
+            return;
+        }
+
         try {
             logger.info('starting mutagen');
             mutagenConfigManipulator.createManipulatedMutagenConfigFile(
@@ -58,6 +66,10 @@ export = (app: App) => {
     });
 
     app.events.on('pre-stop', () => {
+        if (canStartMutagen() !== true) {
+            return;
+        }
+
         try {
             logger.info('stopping mutagen');
             mutagen.stop(mutagenConfigManipulatedFile);
