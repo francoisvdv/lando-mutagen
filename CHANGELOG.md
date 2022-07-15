@@ -1,5 +1,12 @@
 # Changelog
 .
+### [1.0.11](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.10...v1.0.11) (2022-07-15)
+
+
+### Bug Fixes
+
+* **#66:** lando-mutagen now works with lando configuration files that do not have an explicit 'services' key - for example when using just a recipe ([2ff9df3](https://github.com/francoisvdv/lando-mutagen/commit/2ff9df3d3a1ebb15ba87b8287c774d4435c98d0f)), closes [#66](https://github.com/francoisvdv/lando-mutagen/issues/66)
+
 ### [1.0.10](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.9...v1.0.10) (2022-05-05)
 
 
