@@ -17,6 +17,7 @@ declare module 'lando' {
         events: {
             on: (eventName: string, handler: () => void) => void;
         };
+        root: string;
     }
     class Lando {
         

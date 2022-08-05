@@ -5,6 +5,7 @@ import { BaseError } from "./BaseError";
 import { Logger } from "./Logger";
 import { Mutagen, MutagenProcessError } from "./Mutagen";
 import { MutagenConfigInvalidError, MutagenConfigManipulator, MutagenConfigNotFoundError, MutagenConfigWriteError } from "./MutagenConfigManipulator";
+import { platform } from 'process';
 
 const handleError = (e: BaseError, logger: Logger) => {
     if (e instanceof MutagenConfigNotFoundError) {
@@ -23,8 +24,10 @@ const handleError = (e: BaseError, logger: Logger) => {
 };
 
 export = (app: App) => {
-    const mutagenConfigInputFile = '.lando.mutagen.yml';
-    const mutagenConfigManipulatedFile = '.lando.mutagen.yml.tmp';
+    let rootPath = app.root;
+    rootPath += (platform === "win32") ? '\\' : '/';
+    const mutagenConfigInputFile = rootPath + '.lando.mutagen.yml';
+    const mutagenConfigManipulatedFile = rootPath + '.lando.mutagen.yml.tmp';
 
     const logger = new Logger(app);
     const mutagen = new Mutagen(logger);
