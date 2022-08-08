@@ -1,5 +1,12 @@
 # Changelog
 .
+### [1.0.12](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.11...v1.0.12) (2022-08-08)
+
+
+### Bug Fixes
+
+* Use root path to specify mutagen file location ([95173f9](https://github.com/francoisvdv/lando-mutagen/commit/95173f947eb3401c4d2fabcd2fd5cc412329f640))
+
 ### [1.0.11](https://github.com/francoisvdv/lando-mutagen/compare/v1.0.10...v1.0.11) (2022-07-15)
 
 
