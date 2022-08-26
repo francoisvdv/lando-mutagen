@@ -19,6 +19,11 @@ This is where this plugin comes in. Add a base [Mutagen](https://mutagen.io) con
 2. Lando (obviously :))
 
 ## Installation
+### Mac Installation Script
+```
+curl -s https://raw.githubusercontent.com/francoisvdv/lando-mutagen/main/scripts/mac-install.sh | bash
+```
+The above command will download and run a script which installs the latest release of the plugin to `~/.lando/plugins/lando_mutagen`
 ### One-liner
 ```
 # rm -rf ~/.lando/plugins/lando-mutagen # Delete previous install
