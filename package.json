@@ -32,7 +32,7 @@
     "@types/mocha": "^9.1.0",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
-    "@typescript-eslint/parser": "^5.16.0",
+    "@typescript-eslint/parser": "^5.48.0",
     "chai": "^4.3.4",
     "command-line-test": "^1.0.10",
     "eslint": "^8.12.0",
